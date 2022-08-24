@@ -173,6 +173,10 @@ client.on('messageCreate', async message => {
             if (parameters !== undefined && parameters !== null && parameters !== '') {
                 if (message.member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
                     let ban_requested_user = message.mentions.members.first()
+                    if (ban_requested_user === undefined) {
+                        await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi belirtmelisiniz. ${message.author}`, ephemeral: true })
+                        return;
+                    }
                     if (ban_requested_user.bannable) {
                         let banEmbed = new EmbedBuilder()
                             .setColor(0xFC0000)
@@ -202,6 +206,10 @@ client.on('messageCreate', async message => {
             if (parameters !== undefined && parameters !== null && parameters !== '') {
                 if (message.member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
                     let kick_requested_user = message.mentions.members.first()
+                    if (kick_requested_user === undefined) {
+                        await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi belirtmelisiniz. ${message.author}`, ephemeral: true })
+                        return;
+                    }
                     if (kick_requested_user.kickable) {
                         let kickEmbed = new EmbedBuilder()
                             .setColor(0xFC0000)
@@ -232,10 +240,14 @@ client.on('messageCreate', async message => {
                 if (message.member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
                     let role_requested_user = message.mentions.members.first();
                     let requested_role = message.mentions.roles.first();
+                    if (role_requested_user === undefined || requested_role === undefined) {
+                        await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi ve yetki belirtmelisiniz. ${message.author}`, ephemeral: true })
+                        return;
+                    }
                     if (role_requested_user.roles.cache.has(requested_role.id)) {
                         await channel.send(`${role_requested_user} zaten bu yetkiye sahip. ${message.author}`)
                     } else {
-                        role_requested_user.roles.add(requested_role);
+                        role_requested_user.roles.add(requested_role.id);
                         let roleEmbed = new EmbedBuilder()
                             .setColor(0x07D010)
                             .setTitle('Rol verildi!')
@@ -262,10 +274,14 @@ client.on('messageCreate', async message => {
                 if (message.member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
                     let role_requested_user = message.mentions.members.first();
                     let requested_role = message.mentions.roles.first();
+                    if (role_requested_user === undefined || requested_role === undefined) {
+                        await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi ve yetki belirtmelisiniz. ${message.author}`, ephemeral: true })
+                        return;
+                    }
                     if (!role_requested_user.roles.cache.has(requested_role.id)) {
                         await channel.send(`${role_requested_user} zaten bu yetkiye sahip değil. ${message.author}`)
                     } else {
-                        role_requested_user.roles.remove(requested_role);
+                        role_requested_user.roles.remove(requested_role.id);
                         let roleEmbed = new EmbedBuilder()
                             .setColor(0xFC0000)
                             .setTitle('Rol alındı!')
