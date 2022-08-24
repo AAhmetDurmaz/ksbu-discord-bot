@@ -1,0 +1,32 @@
+[
+    {
+        "name": "ahmet güven",
+        "print_name": "Dr. Öğr. Üyesi **Ahmet GÜVEN**",
+        "email": "ahmet.guven@ksbu.edu.tr"
+    },
+    {
+        "name": "emre güngör",
+        "print_name": "Dr. Öğr. Üyesi **Emre GÜNGÖR**",
+        "email": "emre.gungur@ksbu.edu.tr"
+    },
+    {
+        "name": "vedat kavalcı",
+        "print_name": "Dr. Öğr. Üyesi **Vedat KAVALCI**",
+        "email": "vedat.kavalci@ksbu.edu.tr"
+    },
+    {
+        "name": "serel özmen akyol",
+        "print_name": "Dr. Öğr. Üyesi **Serel ÖZMEN AKYOL**",
+        "email": "serel.akyol@ksbu.edu.tr"
+    },
+    {
+        "name": "zekeriya katılmış",
+        "print_name": "Dr. Öğr. Üyesi **Zekeriya KATILMIŞ**",
+        "email": "Henüz tanımlı bir mail adresi bulunmuyor."
+    },
+    {
+        "name": "ahmet baştuğ",
+        "print_name": "Dr. Öğr. Üyesi **Ahmet BAŞTUĞ**",
+        "email": "ahmet.bastug@ksbu.edu.tr"
+    }
+]
