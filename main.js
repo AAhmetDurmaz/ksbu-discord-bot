@@ -162,6 +162,21 @@ client.on('messageCreate', async message => {
 
                     channel.send({ embeds: [rolalEmbed] });
                     break;
+                case 'temizle':
+                    let temizleEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/temizle')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Temizle komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/temizle <Mesaj sayısı>' },
+                            { name: 'Açıklama:', value: 'Belirtilen mesaj sayısı kadar mesajı temizler. En fazla 100 en az 2 değerini alır.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [temizleEmbed] });
+                    break;
                 default:
                     await channel.send(
                         '**Sunucumuza hoşgeldin!**\nKomutlar hakkında özel olarak yardım almak için **\'k/yardım <Komut adı>\'** şeklinde yazabilirsin.\n**Temel komutlar: \n> k/yardım\n> k/iletisim\n> k/duyurular\nYönetici komutları:\n> k/ban\n> k/kick\n> k/rolver\n> k/rolal**'
@@ -309,6 +324,38 @@ client.on('messageCreate', async message => {
                 }
             } else {
                 await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi belirtmelisiniz. ${message.author}`, ephemeral: true })
+            }
+            break;
+        case 'temizle':
+            if (parameters !== undefined && parameters !== null && parameters !== '') {
+                if (message.member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
+                    let clear_amount = parseInt(parameters);
+                    if (isNaN(clear_amount)) {
+                        await channel.send({ content: `Temizlenecek mesaj sayısını belirtmeniz gerek. ${message.author}`, ephemeral: true })
+                        return;
+                    } else if (clear_amount > 100 || clear_amount < 2) {
+                        await channel.send(`${message.author}, tek seferde en fazla 100, en az 2 adet mesaj temizleyebilirsiniz.`);
+                        return;
+                    } else {
+                        await channel.bulkDelete(clear_amount, true).catch(async err => {
+                            await channel.send('Sistemsel bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+                            return;
+                        }).then(async response => {
+                            let size = response.size;
+                            let deleteEmbed = new EmbedBuilder()
+                                .setColor(0x07D010)
+                                .setTitle('Temizlik vakti!')
+                                .setDescription(`${size} adet mesaj ${message.author} tarafından temizlendi.`)
+                                .setTimestamp()
+                                .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+                            await channel.send({ embeds: [deleteEmbed] });
+                        })
+                    }
+                } else {
+                    await channel.send(`Bu komutu kullanmak için yetkiniz yok. ${message.author}`)
+                }
+            } else {
+                await channel.send({ content: `Temizlenecek mesaj sayısını belirtmeniz gerek. ${message.author}`, ephemeral: true })
             }
             break;
         default:
