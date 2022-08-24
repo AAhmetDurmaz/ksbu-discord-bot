@@ -244,6 +244,10 @@ client.on('messageCreate', async message => {
                         await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi ve yetki belirtmelisiniz. ${message.author}`, ephemeral: true })
                         return;
                     }
+                    if (role_requested_user.id === message.guild.ownerId) {
+                        await channel.send(`Bu komutu bu kişi için kullanamazsınız. ${message.author}`);
+                        return;
+                    }
                     if (role_requested_user.roles.cache.has(requested_role.id)) {
                         await channel.send(`${role_requested_user} zaten bu yetkiye sahip. ${message.author}`)
                     } else {
@@ -276,6 +280,10 @@ client.on('messageCreate', async message => {
                     let requested_role = message.mentions.roles.first();
                     if (role_requested_user === undefined || requested_role === undefined) {
                         await channel.send({ content: `Bu komutu kullanırken dikkatli olun! Kişi ve yetki belirtmelisiniz. ${message.author}`, ephemeral: true })
+                        return;
+                    }
+                    if (role_requested_user.id === message.guild.ownerId) {
+                        await channel.send(`Bu komutu bu kişi için kullanamazsınız. ${message.author}`);
                         return;
                     }
                     if (!role_requested_user.roles.cache.has(requested_role.id)) {
