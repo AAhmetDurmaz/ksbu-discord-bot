@@ -4,7 +4,7 @@
 require('dotenv').config();
 const ViolentChars = require('./ViolentChars.json');
 const Lecturers = require('./Lecturers.json');
-const { Client, GatewayIntentBits, Partials, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const prefix = process.env.PREFIX;
 const client = new Client({
     intents: [
@@ -67,122 +67,27 @@ client.on('messageCreate', async message => {
             }
             await channel.send(tempMessage.join('\n'));
             break;
+        case 'yazıtura':
+            let yazitura = Math.floor(Math.random() * 2);
+            let yazituraEmbed = new EmbedBuilder()
+                .setColor(0x5A42F5)
+                .setTitle('Yazı Tura Atıldı!')
+                .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                .setTimestamp()
+                .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' })
+            if (yazitura === 0) {
+                yazituraEmbed
+                    .setDescription('Yazı geldi!')
+                    .setImage('https://i.hizliresim.com/bh369oy.png')
+            } else {
+                yazituraEmbed
+                    .setDescription('Tura geldi!')
+                    .setImage('https://i.hizliresim.com/4dnfh9t.png')
+            }
+            channel.send({ embeds: [yazituraEmbed] });
+            break;
         case 'duyurular':
             await channel.send('Bilgisayar mühendisliği duyurularına: https://bilmuh.ksbu.edu.tr/index/duyurular/ adresinden ulaşabilirsin!');
-            break;
-        case 'yardım':
-            switch (parameters) {
-                case 'duyurular':
-                    let duyurularEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/duyurular')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Duyurular komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/duyurular' },
-                            { name: 'Açıklama:', value: 'Bilgisayar mühendisliği duyurularına ulaşabileceğiniz iletişim bağlantısını gönderir.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [duyurularEmbed] });
-                    break;
-                case 'iletisim':
-                    let mailEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/iletisim')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('İletişim komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/iletisim <İsim>' },
-                            { name: 'Açıklama:', value: 'Bilgisayar mühendisliği duyurularına ulaşabileceğiniz iletişim bağlantısını gönderir.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [mailEmbed] });
-                    break;
-                case 'ban':
-                    let banEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/ban')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Ban komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/ban <@Kişi>' },
-                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıyı sunucudan süresiz olarak yasaklamaya yarar.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [banEmbed] });
-                    break;
-                case 'kick':
-                    let kickEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/kick')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Kick komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/kick <@Kişi>' },
-                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıyı sunucudan uzaklaştırmaya yarar.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [kickEmbed] });
-                    break;
-                case 'rolver':
-                    let rolverEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/rolver')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Rolver komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/rolver <@Kişi> <@Rol>' },
-                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıya @ ile belirtilen rolü verir.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [rolverEmbed] });
-                    break;
-                case 'rolal':
-                    let rolalEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/rolal')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Rolal komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/rolal <@Kişi> <@Rol>' },
-                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıdan @ ile belirtilen rolü alır.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [rolalEmbed] });
-                    break;
-                case 'temizle':
-                    let temizleEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle('k/temizle')
-                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
-                        .setDescription('Temizle komut kullanımı.')
-                        .addFields(
-                            { name: 'Kullanım:', value: 'k/temizle <Mesaj sayısı>' },
-                            { name: 'Açıklama:', value: 'Belirtilen mesaj sayısı kadar mesajı temizler. En fazla 100 en az 2 değerini alır.' },
-                        )
-                        .setTimestamp()
-                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
-
-                    channel.send({ embeds: [temizleEmbed] });
-                    break;
-                default:
-                    await channel.send(
-                        '**Sunucumuza hoşgeldin!**\nKomutlar hakkında özel olarak yardım almak için **\'k/yardım <Komut adı>\'** şeklinde yazabilirsin.\n**Temel komutlar: \n> k/yardım\n> k/iletisim\n> k/duyurular\nYönetici komutları:\n> k/ban\n> k/kick\n> k/rolver\n> k/rolal**'
-                    );
-                    break;
-            }
             break;
         case 'ban':
             if (parameters !== undefined && parameters !== null && parameters !== '') {
@@ -356,6 +261,135 @@ client.on('messageCreate', async message => {
                 }
             } else {
                 await channel.send({ content: `Temizlenecek mesaj sayısını belirtmeniz gerek. ${message.author}`, ephemeral: true })
+            }
+            break;
+        case 'yardım':
+            switch (parameters) {
+                case 'duyurular':
+                    let duyurularEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/duyurular')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Duyurular komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/duyurular' },
+                            { name: 'Açıklama:', value: 'Bilgisayar mühendisliği duyurularına ulaşabileceğiniz iletişim bağlantısını gönderir.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [duyurularEmbed] });
+                    break;
+                case 'iletisim':
+                    let mailEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/iletisim')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('İletişim komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/iletisim <İsim>' },
+                            { name: 'Açıklama:', value: 'Bilgisayar mühendisliği duyurularına ulaşabileceğiniz iletişim bağlantısını gönderir.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [mailEmbed] });
+                    break;
+                case 'ban':
+                    let banEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/ban')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Ban komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/ban <@Kişi>' },
+                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıyı sunucudan süresiz olarak yasaklamaya yarar.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [banEmbed] });
+                    break;
+                case 'kick':
+                    let kickEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/kick')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Kick komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/kick <@Kişi>' },
+                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıyı sunucudan uzaklaştırmaya yarar.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [kickEmbed] });
+                    break;
+                case 'rolver':
+                    let rolverEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/rolver')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Rolver komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/rolver <@Kişi> <@Rol>' },
+                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıya @ ile belirtilen rolü verir.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [rolverEmbed] });
+                    break;
+                case 'rolal':
+                    let rolalEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/rolal')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Rolal komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/rolal <@Kişi> <@Rol>' },
+                            { name: 'Açıklama:', value: '@ ile belirtilen kullanıcıdan @ ile belirtilen rolü alır.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [rolalEmbed] });
+                    break;
+                case 'temizle':
+                    let temizleEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/temizle')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Temizle komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/temizle <Mesaj sayısı>' },
+                            { name: 'Açıklama:', value: 'Belirtilen mesaj sayısı kadar mesajı temizler. En fazla 100 en az 2 değerini alır.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [temizleEmbed] });
+                    break;
+                case 'yazıtura':
+                    let yazituraEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('k/yazıtura')
+                        .setAuthor({ name: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png', url: 'https://bilmuh.ksbu.edu.tr' })
+                        .setDescription('Yazıtura komut kullanımı.')
+                        .addFields(
+                            { name: 'Kullanım:', value: 'k/yazıtura' },
+                            { name: 'Açıklama:', value: 'Yazı tura atar.' },
+                        )
+                        .setTimestamp()
+                        .setFooter({ text: 'KSBÜ Bilgisayar Mühendisliği', iconURL: 'https://tip.ksbu.edu.tr/app/views/panel/images/logo.png' });
+
+                    channel.send({ embeds: [yazituraEmbed] });
+                    break;
+                default:
+                    await channel.send(
+                        '**Sunucumuza hoşgeldin!**\nKomutlar hakkında özel olarak yardım almak için **\'k/yardım <Komut adı>\'** şeklinde yazabilirsin.\n**Temel komutlar: \n> k/yardım\n> k/iletisim\n> k/duyurular\nYönetici komutları:\n> k/ban\n> k/kick\n> k/rolver\n> k/rolal\n> k/temizle**'
+                    );
+                    break;
             }
             break;
         default:
